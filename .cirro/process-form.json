@@ -1,7 +1,7 @@
 {
     "ui": {},
     "form": {
-        "title": "Jen Test scRNA Pipeline",
+        "title": "BTC scRNA Pipeline",
         "type": "object",
         "properties": {
             "project_parameters": {
