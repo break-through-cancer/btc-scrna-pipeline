@@ -32,16 +32,20 @@ WorkflowMain.initialise(workflow, params, log)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { BTC_SCRNA_PIPELINE } from './workflows/btc_scrna_pipeline'
+//include { BTC_SCRNA_PIPELINE } from './workflows/btc_scrna_pipeline'
+include { BTC_SCRNA_DEMULTIPLEX_PIPELINE } from './workflows/btc_cellranger_demultiplex'
 
 //
 // WORKFLOW: Run main nf-core/btc_scrna_pipeline analysis pipeline
 //
-workflow BTC_PIPELINE {
+// workflow BTC_PIPELINE {
+//     BTC_SCRNA_PIPELINE ()
+// }
 
-    BTC_SCRNA_PIPELINE ()
-    
+workflow BTC_PIPELINE {
+    BTC_SCRNA_DEMULTIPLEX_PIPELINE()
 }
+
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -53,9 +57,14 @@ workflow BTC_PIPELINE {
 // WORKFLOW: Execute a single named workflow for the pipeline
 // See: https://github.com/nf-core/rnaseq/issues/619
 //
+// workflow {
+//     BTC_SCRNA_PIPELINE ()
+// }
+
 workflow {
-    BTC_SCRNA_PIPELINE ()
+    BTC_SCRNA_DEMULTIPLEX_PIPELINE ()
 }
+
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
