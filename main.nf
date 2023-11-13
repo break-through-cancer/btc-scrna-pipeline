@@ -33,7 +33,7 @@ WorkflowMain.initialise(workflow, params, log)
 */
 
 //include { BTC_SCRNA_PIPELINE } from './workflows/btc_scrna_pipeline'
-include { BTC_SCRNA_DEMULTIPLEX_PIPELINE } from './workflows/btc_cellranger_demultiplex'
+include { BTC_SCRNA_CELLRANGER_PIPELINE } from './workflows/btc_cellranger_demultiplex'
 
 //
 // WORKFLOW: Run main nf-core/btc_scrna_pipeline analysis pipeline
@@ -43,7 +43,7 @@ include { BTC_SCRNA_DEMULTIPLEX_PIPELINE } from './workflows/btc_cellranger_demu
 // }
 
 workflow BTC_PIPELINE {
-    BTC_SCRNA_DEMULTIPLEX_PIPELINE()
+    BTC_SCRNA_CELLRANGER_PIPELINE()
 }
 
 
@@ -62,7 +62,7 @@ workflow BTC_PIPELINE {
 // }
 
 workflow {
-    BTC_SCRNA_DEMULTIPLEX_PIPELINE ()
+    BTC_SCRNA_CELLRANGER_PIPELINE ()
 }
 
 
