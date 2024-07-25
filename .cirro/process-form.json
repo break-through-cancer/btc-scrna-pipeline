@@ -38,14 +38,16 @@
           "project_parameters": {
             "title": "Project parameters",
             "type": "object",
+            "description": "Enter cancer type for optimizing malignancy cells identification",
             "properties": {
               "cancer_type": {
                 "type": "string",
                 "title": "Cancer Type",
-                "description": "Enter the cancer type",
-                "default": "Ovarian",
+                "default": "Generic",
                 "enum": [
-                  "Ovarian"
+                  "Generic",
+                  "Ovarian",
+                  "Glioblastoma"
                 ]
               },
               "genome": {

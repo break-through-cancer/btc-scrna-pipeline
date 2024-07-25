@@ -3,7 +3,6 @@
 from cirro.helpers.preprocess_dataset import PreprocessDataset
 import pandas as pd
 
-
 def make_sample_table(ds: PreprocessDataset) -> pd.DataFrame:
 
     ds.logger.info("Files annotated in the dataset:")
@@ -81,19 +80,12 @@ if __name__ == "__main__":
 
     setup_input_parameters(ds)
 
+    #ds.logger.info("Printing out samplesheet columns")
+    #ds.logger.info(ds.samplesheet.columns)
+
     # Make a sample table of the input data
     sample_table = make_sample_table(ds)
     sample_table.to_csv("sample_table.csv", index=None)
 
-    '''
-    # Save the meta data information stored in Cirro to CSV
-    (
-        ds
-        .samplesheet
-        .rename(columns=dict(sample="sample_id"))
-        .to_csv("meta_data.csv", index=None)
-    )
-    '''
-    
     # log
     ds.logger.info(ds.params)

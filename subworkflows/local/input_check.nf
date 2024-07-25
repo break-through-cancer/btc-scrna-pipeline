@@ -8,7 +8,7 @@ include { METADATA_CHECK    } from '../../modules/local/metadata_check'
 workflow INPUT_CHECK {
     take:
         samplesheet // file: /path/to/samplesheet.csv
-        meta_data 
+        meta_data
 
     main:
         SAMPLESHEET_CHECK(samplesheet)

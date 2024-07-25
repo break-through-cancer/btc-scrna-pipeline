@@ -30,6 +30,7 @@ if (params.cancer_type) { cancer_type = params.cancer_type } else { exit 1, 'Can
 // SUBWORKFLOW: Consisting of a mix of local and nf-core/modules
 //
 include { INPUT_CHECK              } from '../subworkflows/local/input_check'
+include { SC_ALIGNMENT             } from '../subworkflows/local/sc_alignment'
 include { SC_BASIC_QC              } from '../subworkflows/local/sc_basic_qc'
 include { SC_BASIC_PROCESSING      } from '../subworkflows/local/sc_basic_processing'
 include { SC_BASIC_STRATIFICATION  } from '../subworkflows/local/sc_basic_stratification'
@@ -44,35 +45,42 @@ include { SC_INTERMEDIATE_CANCER   } from '../subworkflows/local/sc_intermediate
 */
 
 workflow BTC_SCRNA_PIPELINE {
-   
+
     ch_versions = Channel.empty()
 
     // Cirro-related edition
     if(params.meta_data == "assets/test_meta_data.csv") {
         meta_data = "${workflow.projectDir}/${params.meta_data}"
     } else {
-        meta_data = "${params.meta_data}"
+        meta_data = file("${params.meta_data}")
     }
+
+    println(meta_data)
 
     // Preparing databases
     meta_programs_db  = Channel.fromPath("${workflow.projectDir}/${params.input_meta_programs_db}")
     annotation_db     = Channel.fromPath("${workflow.projectDir}/${params.input_cell_markers_db}")
 
     if(params.workflow_level =~ /\b(Basic|Stratification|Annotation|nonMalignant|Malignant|Complete)/) {
-        
+
         // Checking sample input
         INPUT_CHECK(
             sample_table,
             meta_data
         )
 
-        // Basic quality control
-        SC_BASIC_QC(
+        // Download index and Cellranger alignment
+        SC_ALIGNMENT(
             INPUT_CHECK.out.reads,
-            INPUT_CHECK.out.metadata,
             params.genome
         )
-        
+
+        // Basic quality control
+        SC_BASIC_QC(
+            SC_ALIGNMENT.out,
+            INPUT_CHECK.out.metadata
+        )
+
         // Normalization and clustering
         SC_BASIC_PROCESSING(
             SC_BASIC_QC.out,
@@ -101,7 +109,7 @@ workflow BTC_SCRNA_PIPELINE {
             ch_normal,
             annotation_db
         )
-        
+
     }
 
     if(params.workflow_level =~ /\b(nonMalignant|Complete)/) {
